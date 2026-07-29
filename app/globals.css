@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/*
+  "Mise en Place" design system.
+  Palette — Pantry & Zest: deep pantry green + one electric-lime accent.
+  Existing var names (--bg, --bg-card, --accent, …) are preserved so the
+  dashboard keeps rendering; only their values change here.
+*/
+:root {
+  /* surfaces */
+  --bg: #f5f6f1;          /* chalk — cool paper, not cream */
+  --bg-card: #ffffff;
+  --bg-sidebar: #ffffff;
+  --surface-2: #eceee6;   /* subtle raised */
+  --border: #e2e4da;
+  --border-subtle: #edeee8;
+
+  /* text */
+  --text-primary: #17180f;   /* ink */
+  --text-secondary: #4a4e42;
+  --text-muted: #8a8e80;
+
+  /* brand — pantry green */
+  --brand: #1e3a2f;
+  --brand-ink: #f5f6f1;      /* text on brand */
+
+  /* accent — electric lime (the one bold move) */
+  --accent: #cdf23e;
+  --accent-ink: #17180f;     /* dark text on lime */
+  --accent-light: #f2f8dc;   /* faint lime wash */
+  --accent-border: #dcecb0;
+
+  /* functional — expiry / warmth */
+  --clay: #e8623d;
+}
+
+.dark {
+  --bg: #101109;
+  --bg-card: #191b12;
+  --bg-sidebar: #14150e;
+  --surface-2: #22241a;
+  --border: #2e3125;
+  --border-subtle: #24261c;
+
+  --text-primary: #f2f3ec;
+  --text-secondary: #a9ad9c;
+  --text-muted: #6e7263;
+
+  --brand: #274b3c;
+  --brand-ink: #f2f3ec;
+
+  --accent: #cdf23e;
+  --accent-ink: #17180f;
+  --accent-light: #23260f;
+  --accent-border: #3f4a1c;
+
+  --clay: #f0724d;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-body), system-ui, sans-serif;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Display face carries the personality — used with restraint on headings. */
+.font-display {
+  font-family: var(--font-display), system-ui, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* Mono is the kitchen-ticket texture: labels, timings, quantities, tags. */
+.font-mono-ticket {
+  font-family: var(--font-mono), ui-monospace, monospace;
+}
+
+/* Perforated edge — the signature "kitchen chit" motif. */
+.ticket-edge {
+  --perf: 7px;
+  -webkit-mask:
+    radial-gradient(var(--perf) at var(--perf) 50%, #0000 98%, #000) left / 51% 100% repeat-y,
+    radial-gradient(var(--perf) at calc(100% - var(--perf)) 50%, #0000 98%, #000) right / 51% 100% repeat-y;
+  mask:
+    radial-gradient(var(--perf) at var(--perf) 50%, #0000 98%, #000) left / 51% 100% repeat-y,
+    radial-gradient(var(--perf) at calc(100% - var(--perf)) 50%, #0000 98%, #000) right / 51% 100% repeat-y;
+}

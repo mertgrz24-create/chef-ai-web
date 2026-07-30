@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { StoreBadges } from "@/components/marketing/store-badges";
+import { EASE_OUT } from "@/lib/motion";
 
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -12,7 +13,7 @@ export function Navbar() {
     <motion.header
       initial={{ opacity: 0, y: -8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
+      transition={{ duration: 0.3, ease: EASE_OUT }}
       className="sticky top-0 z-50 w-full bg-[#1e3a2f] text-[#f5f6f1]"
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -24,10 +25,10 @@ export function Navbar() {
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-8">
-          <a href="#features" className="text-sm text-[#c3c8ba] transition-colors hover:text-[#f5f6f1]">
+          <a href="#features" className="text-sm text-[#c3c8ba] transition-colors [@media(hover:hover)]:hover:text-[#f5f6f1]">
             Features
           </a>
-          <a href="#pricing" className="text-sm text-[#c3c8ba] transition-colors hover:text-[#f5f6f1]">
+          <a href="#pricing" className="text-sm text-[#c3c8ba] transition-colors [@media(hover:hover)]:hover:text-[#f5f6f1]">
             Pricing
           </a>
           <StoreBadges size="compact" />
@@ -35,7 +36,7 @@ export function Navbar() {
 
         {/* Mobile hamburger */}
         <button
-          className="md:hidden flex flex-col justify-center gap-1.5 p-2"
+          className="md:hidden flex flex-col justify-center gap-1.5 p-2 transition-transform duration-150 ease-out active:scale-90"
           onClick={() => setMenuOpen((prev) => !prev)}
           aria-label="Toggle menu"
         >
@@ -50,13 +51,13 @@ export function Navbar() {
         <motion.div
           initial={{ opacity: 0, y: -4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.2, ease: "easeOut" }}
+          transition={{ duration: 0.2, ease: EASE_OUT }}
           className="md:hidden flex flex-col gap-2 px-6 py-4 border-t border-[#f5f6f1]/15"
         >
-          <a href="#features" className="text-sm py-2 text-[#c3c8ba] transition-colors hover:text-[#f5f6f1]">
+          <a href="#features" className="text-sm py-2 text-[#c3c8ba] transition-colors [@media(hover:hover)]:hover:text-[#f5f6f1]">
             Features
           </a>
-          <a href="#pricing" className="text-sm py-2 text-[#c3c8ba] transition-colors hover:text-[#f5f6f1]">
+          <a href="#pricing" className="text-sm py-2 text-[#c3c8ba] transition-colors [@media(hover:hover)]:hover:text-[#f5f6f1]">
             Pricing
           </a>
           <StoreBadges size="compact" className="mt-1" />

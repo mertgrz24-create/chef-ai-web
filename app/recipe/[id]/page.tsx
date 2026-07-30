@@ -68,10 +68,11 @@ export default async function PublicRecipePage({ params }: { params: Promise<{ i
       {/* Header */}
       <header className="border-b border-[var(--border)] bg-[var(--bg-card)] px-4 py-4">
         <div className="mx-auto flex max-w-2xl items-center justify-between">
-          <Link href="/" className="text-xl font-bold" style={{ color: '#ffa51f' }}>
-            ChefAI
+          <Link href="/" className="font-display text-xl font-bold">
+            <span style={{ color: 'var(--text-primary)' }}>Chef</span>
+            <span style={{ color: 'var(--brand)' }}>AI</span>
           </Link>
-          <Link href="/" className="text-sm text-[var(--text-muted)] transition hover:text-[var(--text-secondary)]">
+          <Link href="/" className="text-sm text-[var(--text-muted)] transition-colors [@media(hover:hover)]:hover:text-[var(--text-secondary)]">
             What is ChefAI? →
           </Link>
         </div>
@@ -86,15 +87,15 @@ export default async function PublicRecipePage({ params }: { params: Promise<{ i
 
             {/* Ingredients */}
             <div className="mb-6">
-              <h2 className="mb-3 flex items-center gap-2 text-base font-semibold text-[var(--text-primary)]">
-                <span>📝</span> Ingredients
+              <h2 className="mb-3 text-base font-semibold text-[var(--text-primary)]">
+                Ingredients
               </h2>
               <ul className="space-y-1.5">
                 {recipe.ingredients.map((ing, i) => (
                   <li key={i} className="flex items-start gap-2 text-sm text-[var(--text-secondary)]">
                     <span
                       className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full"
-                      style={{ backgroundColor: '#ffa51f' }}
+                      style={{ backgroundColor: 'var(--brand)' }}
                     />
                     {ing}
                   </li>
@@ -104,21 +105,21 @@ export default async function PublicRecipePage({ params }: { params: Promise<{ i
 
             {/* Instructions */}
             <div className="mb-6">
-              <h2 className="mb-3 flex items-center gap-2 text-base font-semibold text-[var(--text-primary)]">
-                <span>👨‍🍳</span> Instructions
+              <h2 className="mb-3 text-base font-semibold text-[var(--text-primary)]">
+                Instructions
               </h2>
               <p className="whitespace-pre-wrap text-sm leading-relaxed text-[var(--text-secondary)]">
                 {recipe.instructions}
               </p>
             </div>
 
-            {/* Macros */}
+            {/* Macros — same plain mono convention as the hero's ticket mockup, no emoji */}
             {recipe.macros && (
-              <div className="mb-6 flex flex-wrap gap-x-4 gap-y-1 rounded-xl border border-[var(--accent-border)] bg-[var(--accent-light)] px-4 py-3 text-xs text-[var(--text-secondary)]">
-                <span>🔥 <span className="font-semibold text-[var(--text-primary)]">{recipe.macros.calories} kcal</span></span>
-                <span>💪 <span className="font-semibold text-[var(--text-primary)]">{recipe.macros.protein_g}g</span> protein</span>
-                <span>🍚 <span className="font-semibold text-[var(--text-primary)]">{recipe.macros.carbs_g}g</span> carbs</span>
-                <span>🧈 <span className="font-semibold text-[var(--text-primary)]">{recipe.macros.fat_g}g</span> fat</span>
+              <div className="font-mono-ticket mb-6 flex flex-wrap gap-x-4 gap-y-1 rounded-xl border border-[var(--accent-border)] bg-[var(--accent-light)] px-4 py-3 text-xs text-[var(--text-secondary)]">
+                <span className="font-semibold text-[var(--text-primary)]">{recipe.macros.calories} KCAL</span>
+                <span><span className="font-semibold text-[var(--text-primary)]">{recipe.macros.protein_g}g</span> PROTEIN</span>
+                <span><span className="font-semibold text-[var(--text-primary)]">{recipe.macros.carbs_g}g</span> CARBS</span>
+                <span><span className="font-semibold text-[var(--text-primary)]">{recipe.macros.fat_g}g</span> FAT</span>
               </div>
             )}
 
@@ -147,7 +148,7 @@ export default async function PublicRecipePage({ params }: { params: Promise<{ i
 
         <p className="mt-6 text-center text-xs text-[var(--text-muted)]">
           This recipe was created with{' '}
-          <Link href="/" className="font-medium hover:underline" style={{ color: '#ffa51f' }}>
+          <Link href="/" className="font-medium hover:underline" style={{ color: 'var(--brand)' }}>
             ChefAI
           </Link>
         </p>

@@ -2,33 +2,35 @@
 
 import { Fragment } from "react";
 import { motion, type Variants } from "framer-motion";
+import { EASE_OUT } from "@/lib/motion";
+import { CameraIcon, SparkIcon, ChefHatIcon } from "@/components/marketing/icons";
 
 const container: Variants = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.2 } },
+  visible: { transition: { staggerChildren: 0.08 } },
 };
 
 const stepVariant: Variants = {
-  hidden: { opacity: 0, x: -20 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.5, ease: "easeOut" } },
+  hidden: { opacity: 0, x: -16 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.45, ease: EASE_OUT } },
 };
 
 const steps = [
   {
     number: "01",
-    icon: "📸",
+    Icon: CameraIcon,
     title: "Snap a Photo",
     description: "Take a picture of your fridge. AI identifies every ingredient instantly.",
   },
   {
     number: "02",
-    icon: "🤖",
+    Icon: SparkIcon,
     title: "AI Fires a Ticket",
     description: "Gemini reads the image and fires back a recipe built around what you have.",
   },
   {
     number: "03",
-    icon: "🍳",
+    Icon: ChefHatIcon,
     title: "Cook & Enjoy",
     description: "Follow the step-by-step recipe and enjoy a home-cooked meal.",
   },
@@ -43,7 +45,7 @@ export function HowItWorks() {
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
+          transition={{ duration: 0.45, ease: EASE_OUT }}
           className="mb-16"
         >
           <p className="font-mono-ticket text-[11px] tracking-[0.2em] text-[var(--brand)] mb-3">
@@ -72,7 +74,7 @@ export function HowItWorks() {
                   <span className="h-px flex-1 bg-[var(--border)] mb-2" />
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-2xl">{step.icon}</span>
+                  <step.Icon size={20} className="text-[var(--brand)]" />
                   <h3 className="text-base font-semibold text-[var(--text-primary)]">
                     {step.title}
                   </h3>
@@ -82,10 +84,10 @@ export function HowItWorks() {
                 </p>
               </motion.div>
 
-              {/* Arrow — desktop only, between steps */}
+              {/* Divider — dashed, echoing the ticket perforation instead of a plain arrow glyph */}
               {i < steps.length - 1 && (
-                <div className="hidden md:flex items-center justify-center w-12 shrink-0 mt-6 text-xl text-[var(--text-muted)]">
-                  →
+                <div className="hidden md:flex items-center justify-center w-12 shrink-0 mt-6">
+                  <span className="w-full border-t border-dashed border-[var(--border)]" />
                 </div>
               )}
             </Fragment>

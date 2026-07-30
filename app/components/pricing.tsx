@@ -1,17 +1,8 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { motion } from "framer-motion";
 import { StoreBadges } from "@/components/marketing/store-badges";
-
-const container: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.2 } },
-};
-
-const cardVariant: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
-};
+import { revealContainer, revealItem, EASE_OUT } from "@/lib/motion";
 
 const freeItems = ["Manual ingredient entry", "10 recipes per month", "Core features"];
 
@@ -31,7 +22,7 @@ export function Pricing() {
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
+          transition={{ duration: 0.45, ease: EASE_OUT }}
           className="text-center mb-14"
         >
           <p className="font-mono-ticket text-[11px] tracking-[0.2em] text-[var(--brand)] mb-3">
@@ -44,7 +35,7 @@ export function Pricing() {
 
         {/* Cards */}
         <motion.div
-          variants={container}
+          variants={revealContainer}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -52,8 +43,8 @@ export function Pricing() {
         >
           {/* Free plan */}
           <motion.div
-            variants={cardVariant}
-            className="rounded-2xl p-8 flex flex-col gap-6"
+            variants={revealItem}
+            className="rounded-2xl p-8 flex flex-col gap-6 [@media(hover:hover)]:hover:-translate-y-0.5 transition-transform duration-200"
             style={{ backgroundColor: "var(--bg-card)", border: "1px solid var(--border)" }}
           >
             <div>
@@ -76,8 +67,8 @@ export function Pricing() {
 
           {/* Premium plan */}
           <motion.div
-            variants={cardVariant}
-            className="rounded-2xl p-8 flex flex-col gap-6 relative"
+            variants={revealItem}
+            className="rounded-2xl p-8 flex flex-col gap-6 relative [@media(hover:hover)]:hover:-translate-y-0.5 transition-transform duration-200"
             style={{ backgroundColor: "var(--brand)" }}
           >
             {/* MOST POPULAR badge */}

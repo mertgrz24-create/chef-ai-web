@@ -1,32 +1,24 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
-
-const container: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.15 } },
-};
-
-const cardVariant: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
-};
+import { motion } from "framer-motion";
+import { revealContainer, revealItem, EASE_OUT } from "@/lib/motion";
+import { CameraIcon, SparkIcon, TimerIcon } from "@/components/marketing/icons";
 
 const cards = [
   {
-    icon: "📷",
+    Icon: CameraIcon,
     title: "Visual Pantry",
     description: "Snap your fridge and let AI identify every ingredient — no typing.",
     featured: false,
   },
   {
-    icon: "✨",
+    Icon: SparkIcon,
     title: "Smart Recipes",
     description: "Get personalized recipes from what you already have, in seconds.",
     featured: true,
   },
   {
-    icon: "⏰",
+    Icon: TimerIcon,
     title: "Zero Waste",
     description: "Alerts for expiring items — cook before you toss, save money.",
     featured: false,
@@ -42,7 +34,7 @@ export function Features() {
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
+          transition={{ duration: 0.45, ease: EASE_OUT }}
           className="mb-14"
         >
           <p className="font-mono-ticket text-[11px] tracking-[0.2em] text-[var(--brand)] mb-3">
@@ -55,7 +47,7 @@ export function Features() {
 
         {/* Cards */}
         <motion.div
-          variants={container}
+          variants={revealContainer}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -64,8 +56,8 @@ export function Features() {
           {cards.map((card) => (
             <motion.div
               key={card.title}
-              variants={cardVariant}
-              className="rounded-2xl p-7 flex flex-col gap-5"
+              variants={revealItem}
+              className="rounded-2xl p-7 flex flex-col gap-5 [@media(hover:hover)]:hover:-translate-y-0.5 transition-transform duration-200"
               style={
                 card.featured
                   ? { backgroundColor: "var(--brand)" }
@@ -77,12 +69,13 @@ export function Features() {
             >
               {/* Icon box */}
               <div
-                className="w-11 h-11 rounded-xl flex items-center justify-center text-xl"
+                className="w-11 h-11 rounded-xl flex items-center justify-center"
                 style={{
                   backgroundColor: card.featured ? "#ffffff1a" : "var(--accent-light)",
+                  color: card.featured ? "#f5f6f1" : "var(--brand)",
                 }}
               >
-                {card.icon}
+                <card.Icon size={20} />
               </div>
 
               {/* Title + description */}

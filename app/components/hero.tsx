@@ -1,17 +1,42 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { useRef } from "react";
+import {
+  motion,
+  useMotionTemplate,
+  useScroll,
+  useSpring,
+  useTransform,
+  type Variants,
+} from "framer-motion";
 import { StoreBadges } from "@/components/marketing/store-badges";
+import { revealContainer as container, revealItem as item, EASE_OUT } from "@/lib/motion";
 
-const container: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
-};
-
-const item: Variants = {
-  hidden: { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
-};
+// Subtle scroll parallax on the ticket — decorative, so a spring (not a
+// direct 1:1 scroll tie) gives it weight instead of feeling glued to the
+// scrollbar. Kept on its own element so it never fights the entrance
+// animation's own transform on the wrapping motion.div.
+function useTicketParallax() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+  const ySpring = useSpring(useTransform(scrollYProgress, [0, 1], [0, -36]), {
+    stiffness: 120,
+    damping: 22,
+    mass: 0.4,
+  });
+  const rotateSpring = useSpring(useTransform(scrollYProgress, [0, 1], [0, -2]), {
+    stiffness: 120,
+    damping: 22,
+    mass: 0.4,
+  });
+  // A literal transform string, not x/y/rotate props — Framer Motion's
+  // shorthand transform props aren't hardware-accelerated.
+  const transform = useMotionTemplate`translateY(${ySpring}px) rotate(${rotateSpring}deg)`;
+  return { ref, transform };
+}
 
 // The ticket "prints" in — one orchestrated moment, kept restrained.
 const ticketVariant: Variants = {
@@ -20,7 +45,7 @@ const ticketVariant: Variants = {
     opacity: 1,
     y: 0,
     rotate: -1.5,
-    transition: { duration: 0.65, ease: [0.16, 1, 0.3, 1], delay: 0.2 },
+    transition: { duration: 0.65, ease: EASE_OUT, delay: 0.2 },
   },
 };
 
@@ -43,7 +68,7 @@ function RecipeTicket() {
         className="absolute inset-0 translate-x-2 translate-y-2 rounded-[14px] bg-black/20"
         aria-hidden
       />
-      <div className="relative rounded-[14px] bg-white text-[#17180f] shadow-2xl overflow-hidden">
+      <div className="ticket-edge relative rounded-[14px] bg-white text-[#17180f] shadow-2xl overflow-hidden">
         {/* Ticket header — ink bar */}
         <div className="bg-[#17180f] text-[#f5f6f1] px-4 py-2.5 flex items-center justify-between text-[11px] tracking-widest">
           <span>ORDER #0428</span>
@@ -90,6 +115,8 @@ function RecipeTicket() {
 }
 
 export function Hero() {
+  const { ref: parallaxRef, transform: ticketTransform } = useTicketParallax();
+
   return (
     <section className="bg-[#1e3a2f] text-[#f5f6f1]">
       <div className="max-w-6xl mx-auto px-6 py-20 md:py-28 grid md:grid-cols-[1.1fr_0.9fr] md:gap-14 items-center">
@@ -133,7 +160,7 @@ export function Hero() {
             <StoreBadges />
             <a
               href="#how-it-works"
-              className="self-start px-7 py-3 rounded-full text-sm font-medium border border-[#f5f6f1]/25 text-[#f5f6f1] transition-colors hover:bg-white/5"
+              className="self-start px-7 py-3 rounded-full text-sm font-medium border border-[#f5f6f1]/25 text-[#f5f6f1] transition-[transform,background-color] duration-150 ease-out active:scale-[0.97] [@media(hover:hover)]:hover:bg-white/5"
             >
               See how it works
             </a>
@@ -162,12 +189,17 @@ export function Hero() {
 
         {/* Right — the fired ticket */}
         <motion.div
+          ref={parallaxRef}
           variants={ticketVariant}
           initial="hidden"
           animate="visible"
           className="hidden md:flex justify-center items-center"
         >
-          <RecipeTicket />
+          {/* Separate element for scroll parallax so its `transform` string
+              never competes with the entrance variant's own transform. */}
+          <motion.div style={{ transform: ticketTransform }}>
+            <RecipeTicket />
+          </motion.div>
         </motion.div>
       </div>
     </section>

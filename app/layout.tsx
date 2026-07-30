@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Instrument_Sans, Space_Mono } from "next/font/google";
+import { MotionConfig } from "framer-motion";
 import "./globals.css";
 
 // Display — characterful, food-editorial. Used with restraint on headings.
@@ -62,7 +63,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${display.variable} ${body.variable} ${mono.variable}`}>
-        {children}
+        {/* App-wide: when the OS prefers reduced motion, Framer Motion drops
+            transform/layout animation but keeps opacity — one place instead
+            of a useReducedMotion() check duplicated in every component. */}
+        <MotionConfig reducedMotion="user">{children}</MotionConfig>
       </body>
     </html>
   );

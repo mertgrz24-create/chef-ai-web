@@ -59,15 +59,20 @@ export function StoreBadges({ tone = 'dark', size = 'default', className = '' }:
       : 'bg-[var(--text-primary)] text-[var(--bg)]'
   const secondary =
     tone === 'dark'
-      ? 'border border-[#f5f6f1]/25 text-[#f5f6f1] hover:bg-white/5'
-      : 'border border-[var(--text-primary)] text-[var(--text-primary)] hover:bg-[var(--surface-2)]'
+      ? 'border border-[#f5f6f1]/25 text-[#f5f6f1] [@media(hover:hover)]:hover:bg-white/5'
+      : 'border border-[var(--text-primary)] text-[var(--text-primary)] [@media(hover:hover)]:hover:bg-[var(--surface-2)]'
+
+  // Press feedback (scale(0.97) on :active) applies on any pointer, unlike
+  // the lift/tint hovers above which are gated to real pointers only —
+  // touch devices fire :hover on tap and get stuck there otherwise.
+  const pressable = 'transition-transform duration-150 ease-out active:scale-[0.97]'
 
   return (
     <div className={`flex flex-col sm:flex-row gap-3 ${className}`}>
       {IOS_URL && (
         <a
           href={IOS_URL}
-          className={`inline-flex items-center justify-center gap-2 rounded-full font-bold transition-transform hover:-translate-y-0.5 ${pad} ${text} ${primary}`}
+          className={`inline-flex items-center justify-center gap-2 rounded-full font-bold [@media(hover:hover)]:hover:-translate-y-0.5 ${pressable} ${pad} ${text} ${primary}`}
         >
           <AppleMark size={icon} />
           App Store
@@ -76,7 +81,7 @@ export function StoreBadges({ tone = 'dark', size = 'default', className = '' }:
       {ANDROID_URL && (
         <a
           href={ANDROID_URL}
-          className={`inline-flex items-center justify-center gap-2 rounded-full font-medium transition-colors ${pad} ${text} ${
+          className={`inline-flex items-center justify-center gap-2 rounded-full font-medium ${pressable} ${pad} ${text} ${
             IOS_URL ? secondary : primary
           }`}
         >

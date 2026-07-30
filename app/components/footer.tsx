@@ -1,6 +1,7 @@
-"use client";
-
-import { motion } from "framer-motion";
+// Plain server component — no "use client" needed. The footer used to
+// fade in on scroll, but that had no purpose (it's always visible once
+// reached; the visitor isn't looking anywhere else). Dropping it also
+// drops the framer-motion import from this leaf of the tree.
 
 const linkGroups = [
   {
@@ -19,13 +20,7 @@ const linkGroups = [
 
 export function Footer() {
   return (
-    <motion.footer
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      style={{ backgroundColor: "#17180f" }}
-    >
+    <footer style={{ backgroundColor: "#17180f" }}>
       <div className="max-w-6xl mx-auto px-6 py-12">
         {/* Top row */}
         <div className="flex flex-col md:flex-row md:justify-between gap-10 md:gap-0 pb-10">
@@ -51,7 +46,7 @@ export function Footer() {
                   <a
                     key={link}
                     href="#"
-                    className="text-sm transition-colors hover:text-white"
+                    className="text-sm transition-colors [@media(hover:hover)]:hover:text-white"
                     style={{ color: "#888" }}
                   >
                     {link}
@@ -70,11 +65,11 @@ export function Footer() {
           <p className="text-xs" style={{ color: "#6e7263" }}>
             © 2026 Chef-AI. All rights reserved.
           </p>
-          <p className="text-xs" style={{ color: "#555" }}>
-            🤖 Powered by Claude + Gemini
+          <p className="font-mono-ticket text-xs tracking-wide" style={{ color: "#555" }}>
+            POWERED BY CLAUDE + GEMINI
           </p>
         </div>
       </div>
-    </motion.footer>
+    </footer>
   );
 }

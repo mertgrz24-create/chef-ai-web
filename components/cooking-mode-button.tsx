@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { CookingMode } from '@/components/cooking-mode'
+import { ChefHatIcon } from '@/components/marketing/icons'
 
 interface CookingModeButtonProps {
   recipeName: string
@@ -16,9 +17,10 @@ export function CookingModeButton({ recipeName, instructions }: CookingModeButto
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="flex w-full items-center justify-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg)] py-3 text-sm font-semibold text-[var(--text-secondary)] transition hover:border-amber-300 hover:text-amber-600 dark:hover:text-amber-400"
+        className="flex w-full items-center justify-center gap-2 rounded-xl border border-[var(--border)] bg-[var(--bg)] py-3 text-sm font-semibold text-[var(--text-secondary)] transition-[transform,border-color,color] duration-150 ease-out active:scale-[0.98] [@media(hover:hover)]:hover:border-[var(--brand)] [@media(hover:hover)]:hover:text-[var(--brand)]"
       >
-        👨‍🍳 Start Cooking
+        <ChefHatIcon size={16} />
+        Start Cooking
       </button>
 
       <CookingMode

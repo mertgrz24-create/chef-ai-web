@@ -42,29 +42,11 @@
 
   /* functional — expiry / warmth */
   --clay: #e8623d;
-}
 
-.dark {
-  --bg: #101109;
-  --bg-card: #191b12;
-  --bg-sidebar: #14150e;
-  --surface-2: #22241a;
-  --border: #2e3125;
-  --border-subtle: #24261c;
-
-  --text-primary: #f2f3ec;
-  --text-secondary: #a9ad9c;
-  --text-muted: #6e7263;
-
-  --brand: #274b3c;
-  --brand-ink: #f2f3ec;
-
-  --accent: #cdf23e;
-  --accent-ink: #17180f;
-  --accent-light: #23260f;
-  --accent-border: #3f4a1c;
-
-  --clay: #f0724d;
+  /* motion — Emil Kowalski's strong custom eases; the CSS built-ins
+     (ease-out, ease-in-out) are too weak to feel intentional. */
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out-strong: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 body {

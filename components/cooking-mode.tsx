@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { EASE_OUT } from '@/lib/motion'
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -150,7 +151,7 @@ export function CookingMode({ recipeName, instructions, open, onClose }: Cooking
             className="h-full rounded-full transition-all duration-300"
             style={{
               width: `${((step + 1) / steps.length) * 100}%`,
-              backgroundColor: '#ffa51f',
+              backgroundColor: '#CDF23E',
             }}
           />
         </div>
@@ -166,13 +167,13 @@ export function CookingMode({ recipeName, instructions, open, onClose }: Cooking
             initial="enter"
             animate="center"
             exit="exit"
-            transition={{ duration: 0.25, ease: 'easeOut' }}
+            transition={{ duration: 0.25, ease: EASE_OUT }}
             className="w-full max-w-lg text-center"
           >
             {/* Big step number */}
             <div
               className="mb-6 text-7xl font-black tabular-nums"
-              style={{ color: '#ffa51f', opacity: 0.15 }}
+              style={{ color: '#CDF23E', opacity: 0.15 }}
             >
               {step + 1}
             </div>
@@ -190,7 +191,7 @@ export function CookingMode({ recipeName, instructions, open, onClose }: Cooking
         <div className="mx-auto mb-4 flex flex-col items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-8 py-5 w-fit">
           <span
             className="text-4xl font-bold tabular-nums"
-            style={{ color: timerSeconds === 0 ? '#22c55e' : '#ffa51f' }}
+            style={{ color: timerSeconds === 0 ? '#22c55e' : '#CDF23E' }}
           >
             {timerSeconds === 0 ? '✓ Done!' : fmtTime(timerSeconds)}
           </span>
@@ -199,8 +200,8 @@ export function CookingMode({ recipeName, instructions, open, onClose }: Cooking
               type="button"
               onClick={() => setTimerRunning((r) => !r)}
               disabled={timerSeconds === 0}
-              className="rounded-xl px-4 py-2 text-sm font-semibold text-white transition disabled:opacity-40"
-              style={{ backgroundColor: '#ffa51f' }}
+              className="rounded-xl px-4 py-2 text-sm font-semibold text-[#17180F] transition disabled:opacity-40"
+              style={{ backgroundColor: '#CDF23E' }}
             >
               {timerRunning ? '⏸ Pause' : '▶ Start'}
             </button>
@@ -230,8 +231,8 @@ export function CookingMode({ recipeName, instructions, open, onClose }: Cooking
           <button
             type="button"
             onClick={onClose}
-            className="flex-1 rounded-2xl py-4 text-sm font-semibold text-white transition hover:opacity-90"
-            style={{ backgroundColor: '#ffa51f' }}
+            className="flex-1 rounded-2xl py-4 text-sm font-semibold text-[#17180F] transition hover:opacity-90"
+            style={{ backgroundColor: '#CDF23E' }}
           >
             🎉 Bon Appétit!
           </button>
@@ -239,8 +240,8 @@ export function CookingMode({ recipeName, instructions, open, onClose }: Cooking
           <button
             type="button"
             onClick={goNext}
-            className="flex-1 rounded-2xl py-4 text-sm font-semibold text-white transition hover:opacity-90"
-            style={{ backgroundColor: '#ffa51f' }}
+            className="flex-1 rounded-2xl py-4 text-sm font-semibold text-[#17180F] transition hover:opacity-90"
+            style={{ backgroundColor: '#CDF23E' }}
           >
             Next →
           </button>

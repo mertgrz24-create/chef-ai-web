@@ -72,6 +72,8 @@ export function StoreBadges({ tone = 'dark', size = 'default', className = '' }:
       {IOS_URL && (
         <a
           href={IOS_URL}
+          target="_blank"
+          rel="noopener noreferrer"
           className={`inline-flex items-center justify-center gap-2 rounded-full font-bold [@media(hover:hover)]:hover:-translate-y-0.5 ${pressable} ${pad} ${text} ${primary}`}
         >
           <AppleMark size={icon} />
@@ -81,6 +83,8 @@ export function StoreBadges({ tone = 'dark', size = 'default', className = '' }:
       {ANDROID_URL && (
         <a
           href={ANDROID_URL}
+          target="_blank"
+          rel="noopener noreferrer"
           className={`inline-flex items-center justify-center gap-2 rounded-full font-medium ${pressable} ${pad} ${text} ${
             IOS_URL ? secondary : primary
           }`}

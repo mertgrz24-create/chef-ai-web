@@ -68,7 +68,7 @@ function RecipeTicket() {
         className="absolute inset-0 translate-x-2 translate-y-2 rounded-[14px] bg-black/20"
         aria-hidden
       />
-      <div className="ticket-edge relative rounded-[14px] bg-white text-[#17180f] shadow-2xl overflow-hidden">
+      <div className="ticket-edge shadow-brand relative rounded-[14px] bg-white text-[#17180f] overflow-hidden">
         {/* Ticket header — ink bar */}
         <div className="bg-[#17180f] text-[#f5f6f1] px-4 py-2.5 flex items-center justify-between text-[11px] tracking-widest">
           <span>ORDER #0428</span>

@@ -68,7 +68,7 @@ export function AppScreens() {
               whileHover={{ y: -6, transition: { duration: 0.2, ease: EASE_OUT } }}
               className="flex flex-col gap-4"
             >
-              <div className="rounded-2xl overflow-hidden border border-[#f5f6f1]/10 shadow-2xl bg-black/10 [@media(hover:hover)]:hover:shadow-[0_28px_70px_-20px_rgba(0,0,0,0.65)] transition-shadow duration-200">
+              <div className="shadow-brand rounded-2xl overflow-hidden border border-[#f5f6f1]/10 bg-black/10 [@media(hover:hover)]:hover:shadow-[0_28px_70px_-20px_rgba(0,0,0,0.65)] transition-shadow duration-200">
                 <Image
                   src={screen.src}
                   alt={screen.alt}

@@ -47,6 +47,20 @@
      (ease-out, ease-in-out) are too weak to feel intentional. */
   --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out-strong: cubic-bezier(0.77, 0, 0.175, 1);
+
+  /* Shadows tinted with the brand's own ink/pantry-green instead of flat
+     black — generic box-shadow is one of the most common "AI slop" tells. */
+  --shadow-brand: 0 25px 60px -15px rgba(23, 42, 33, 0.45);
+}
+
+/* Authored as a real class rather than Tailwind's `shadow-[var(...)]`
+   bracket syntax — Tailwind's arbitrary-value type inference doesn't
+   reliably recognize a bare var() reference as a shadow value, so that
+   form silently produces no rule. A plain class also composes correctly
+   with a later `hover:shadow-[...]` utility (cascade order decides,
+   unlike an inline style which would always win regardless of :hover). */
+.shadow-brand {
+  box-shadow: var(--shadow-brand);
 }
 
 body {
@@ -57,12 +71,27 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.2s ease, color 0.2s ease;
+  /* The site already gives its own scale/press feedback on tap; the
+     browser's default gray flash just fights it. */
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* Display face carries the personality — used with restraint on headings. */
+/* Anchor nav (#features, #pricing, #how-it-works) glides instead of
+   jump-cutting. Gated behind no-preference so reduced-motion users keep
+   the instant jump, which is the correct behavior for them. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Display face carries the personality — used with restraint on headings.
+   text-wrap: balance keeps wrapped headlines from stranding a single
+   orphaned word on the last line. */
 .font-display {
   font-family: var(--font-display), system-ui, sans-serif;
   letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
 /* Mono is the kitchen-ticket texture: labels, timings, quantities, tags. */

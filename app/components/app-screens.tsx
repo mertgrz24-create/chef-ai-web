@@ -1,45 +1,58 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { revealContainer, revealItem, EASE_OUT } from "@/lib/motion";
+import { motion, type Variants } from "framer-motion";
+import { revealContainer, EASE_OUT } from "@/lib/motion";
+import { SectionHeading } from "@/components/marketing/section-heading";
 
 const screens = [
   {
     src: "/app-screens/today.png",
     alt: "Today screen — pantry count, expiring-soon alert, and quick actions to scan or cook",
     caption: "Your kitchen, at a glance.",
+    tilt: -0.6,
   },
   {
     src: "/app-screens/pantry.png",
     alt: "Pantry screen — a list of ingredients with expiry countdowns",
     caption: "What's in the fridge, tracked automatically.",
+    tilt: 0.6,
   },
   {
     src: "/app-screens/cook.png",
     alt: "Cook screen — pantry ingredients selected as chips, ready to fire a recipe",
     caption: "Pick what you have. Fire a recipe.",
+    tilt: -0.6,
   },
 ];
 
+// Each card gets a slightly different tilt so three real screenshots don't
+// read as one copy-pasted unit — restrained (±0.6°), not a showy effect.
+function screenCardVariant(tilt: number): Variants {
+  return {
+    hidden: { opacity: 0, y: 14, scale: 0.97, rotate: tilt },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      rotate: 0,
+      transition: { duration: 0.5, ease: EASE_OUT },
+    },
+  };
+}
+
 export function AppScreens() {
   return (
-    <section className="py-20 md:py-28 bg-[#1e3a2f] text-[#f5f6f1] overflow-hidden">
+    <section className="paper-grain py-20 md:py-28 bg-[#1e3a2f] text-[#f5f6f1] overflow-hidden">
       <div className="max-w-6xl mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.45, ease: EASE_OUT }}
-          className="text-center mb-14"
-        >
-          <p className="font-mono-ticket text-[11px] tracking-[0.2em] text-[#cdf23e] mb-3">
-            THE REAL APP
-          </p>
-          <h2 className="font-display text-3xl md:text-[42px] font-semibold">
-            Not a mockup. This is it.
-          </h2>
-        </motion.div>
+        <SectionHeading
+          eyebrow="THE REAL APP"
+          title="Not a mockup. This is it."
+          eyebrowClassName="text-[#cdf23e]"
+          titleClassName="text-[#f5f6f1]"
+          align="center"
+          className="mb-14"
+        />
 
         <motion.div
           variants={revealContainer}
@@ -49,8 +62,13 @@ export function AppScreens() {
           className="grid md:grid-cols-3 gap-6"
         >
           {screens.map((screen) => (
-            <motion.figure key={screen.src} variants={revealItem} className="flex flex-col gap-4">
-              <div className="rounded-2xl overflow-hidden border border-[#f5f6f1]/10 shadow-2xl bg-black/10">
+            <motion.figure
+              key={screen.src}
+              variants={screenCardVariant(screen.tilt)}
+              whileHover={{ y: -6, transition: { duration: 0.2, ease: EASE_OUT } }}
+              className="flex flex-col gap-4"
+            >
+              <div className="rounded-2xl overflow-hidden border border-[#f5f6f1]/10 shadow-2xl bg-black/10 [@media(hover:hover)]:hover:shadow-[0_28px_70px_-20px_rgba(0,0,0,0.65)] transition-shadow duration-200">
                 <Image
                   src={screen.src}
                   alt={screen.alt}

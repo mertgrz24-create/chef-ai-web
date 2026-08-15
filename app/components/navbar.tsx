@@ -1,20 +1,30 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import Link from "next/link";
 import { StoreBadges } from "@/components/marketing/store-badges";
 import { EASE_OUT } from "@/lib/motion";
 
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  // Functional, not decorative: the sticky header darkens and gains a
+  // shadow once the page has actually scrolled, so it reads as anchored to
+  // scroll position instead of a static bar that never responds.
+  const [scrolled, setScrolled] = useState(false);
+  const { scrollY } = useScroll();
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    setScrolled(latest > 24);
+  });
 
   return (
     <motion.header
       initial={{ opacity: 0, y: -8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, ease: EASE_OUT }}
-      className="sticky top-0 z-50 w-full bg-[#1e3a2f] text-[#f5f6f1]"
+      className={`sticky top-0 z-50 w-full text-[#f5f6f1] transition-[background-color,box-shadow] duration-300 ease-out ${
+        scrolled ? "bg-[#16281e] shadow-[0_8px_24px_-12px_rgba(0,0,0,0.5)]" : "bg-[#1e3a2f]"
+      }`}
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo */}

@@ -80,3 +80,43 @@ body {
     radial-gradient(var(--perf) at var(--perf) 50%, #0000 98%, #000) left / 51% 100% repeat-y,
     radial-gradient(var(--perf) at calc(100% - var(--perf)) 50%, #0000 98%, #000) right / 51% 100% repeat-y;
 }
+
+/* Torn-edge strip — the perforation idea extended past the Hero card to a
+   full section boundary, so the "receipt paper" motif isn't confined to
+   one component. A thin same-color strip sits flush against a section's
+   bottom edge; the mask bites scalloped notches out of it so the section
+   below peeks through, instead of the two sections meeting on a flat line. */
+.ticket-tear {
+  --perf: 8px;
+  -webkit-mask: radial-gradient(var(--perf) at 50% 100%, #0000 98%, #000) bottom / calc(var(--perf) * 2) 100% repeat-x;
+  mask: radial-gradient(var(--perf) at 50% 100%, #0000 98%, #000) bottom / calc(var(--perf) * 2) 100% repeat-x;
+}
+
+/* Paper grain — a faint noise texture for the dark "ticket paper" surfaces
+   (Hero, AppScreens, Footer). Real receipt paper has texture; flat color
+   fill didn't reflect that. Pure CSS/SVG, no JS, costs nothing at runtime. */
+.paper-grain {
+  position: relative;
+}
+.paper-grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 140px 140px;
+}
+
+/* Visible keyboard focus — brand-consistent (lime accent), works on both
+   the dark pantry-green and light chalk surfaces. Nothing defined this
+   before, which is a real gap for keyboard users. */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}

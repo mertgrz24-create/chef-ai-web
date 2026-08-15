@@ -3,19 +3,22 @@
 import { motion } from "framer-motion";
 import { revealContainer, revealItem, EASE_OUT } from "@/lib/motion";
 import { CameraIcon, SparkIcon, TimerIcon } from "@/components/marketing/icons";
+import { SectionHeading } from "@/components/marketing/section-heading";
 
+// Featured card leads the array so it renders first — it spans the full
+// row below, with the two supporting cards sitting side by side under it.
 const cards = [
-  {
-    Icon: CameraIcon,
-    title: "Visual Pantry",
-    description: "Snap your fridge and let AI identify every ingredient — no typing.",
-    featured: false,
-  },
   {
     Icon: SparkIcon,
     title: "Smart Recipes",
     description: "Get personalized recipes from what you already have, in seconds.",
     featured: true,
+  },
+  {
+    Icon: CameraIcon,
+    title: "Visual Pantry",
+    description: "Snap your fridge and let AI identify every ingredient — no typing.",
+    featured: false,
   },
   {
     Icon: TimerIcon,
@@ -29,35 +32,26 @@ export function Features() {
   return (
     <section id="features" className="py-20 md:py-28 bg-[var(--bg-card)]">
       <div className="max-w-6xl mx-auto px-6">
-        {/* Section header */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.45, ease: EASE_OUT }}
-          className="mb-14"
-        >
-          <p className="font-mono-ticket text-[11px] tracking-[0.2em] text-[var(--brand)] mb-3">
-            WHY CHEF-AI
-          </p>
-          <h2 className="font-display text-3xl md:text-[42px] font-semibold text-[var(--text-primary)]">
-            Your kitchen, smarter.
-          </h2>
-        </motion.div>
+        <SectionHeading eyebrow="WHY CHEF-AI" title="Your kitchen, smarter." className="mb-14" />
 
-        {/* Cards */}
+        {/* Cards — the lead feature spans the full row instead of sitting
+            in an equal three-column grid; the two supporting cards share
+            the row below it. */}
         <motion.div
           variants={revealContainer}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid md:grid-cols-3 gap-5"
+          className="grid md:grid-cols-2 gap-5"
         >
           {cards.map((card) => (
             <motion.div
               key={card.title}
               variants={revealItem}
-              className="rounded-2xl p-7 flex flex-col gap-5 [@media(hover:hover)]:hover:-translate-y-0.5 transition-transform duration-200"
+              whileHover={{ y: -2, transition: { duration: 0.2, ease: EASE_OUT } }}
+              className={`rounded-2xl p-7 flex gap-5 ${
+                card.featured ? "md:col-span-2 flex-col md:flex-row md:items-center" : "flex-col"
+              }`}
               style={
                 card.featured
                   ? { backgroundColor: "var(--brand)" }
@@ -69,7 +63,7 @@ export function Features() {
             >
               {/* Icon box */}
               <div
-                className="w-11 h-11 rounded-xl flex items-center justify-center"
+                className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
                 style={{
                   backgroundColor: card.featured ? "#ffffff1a" : "var(--accent-light)",
                   color: card.featured ? "#f5f6f1" : "var(--brand)",
@@ -96,8 +90,8 @@ export function Features() {
 
               {/* Most popular badge — only on featured card */}
               {card.featured && (
-                <div>
-                  <span className="font-mono-ticket text-[10px] tracking-wider px-3 py-1 rounded-full bg-[#cdf23e] text-[#17180f]">
+                <div className="shrink-0">
+                  <span className="font-mono-ticket text-[10px] tracking-wider px-3 py-1 rounded-full bg-[#cdf23e] text-[#17180f] whitespace-nowrap">
                     MOST POPULAR
                   </span>
                 </div>

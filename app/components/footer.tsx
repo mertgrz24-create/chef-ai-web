@@ -20,7 +20,7 @@ const linkGroups = [
 
 export function Footer() {
   return (
-    <footer style={{ backgroundColor: "#17180f" }}>
+    <footer className="paper-grain" style={{ backgroundColor: "#17180f" }}>
       <div className="max-w-6xl mx-auto px-6 py-12">
         {/* Top row */}
         <div className="flex flex-col md:flex-row md:justify-between gap-10 md:gap-0 pb-10">

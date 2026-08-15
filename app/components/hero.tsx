@@ -118,7 +118,7 @@ export function Hero() {
   const { ref: parallaxRef, transform: ticketTransform } = useTicketParallax();
 
   return (
-    <section className="bg-[#1e3a2f] text-[#f5f6f1]">
+    <section className="paper-grain bg-[#1e3a2f] text-[#f5f6f1]">
       <div className="max-w-6xl mx-auto px-6 py-20 md:py-28 grid md:grid-cols-[1.1fr_0.9fr] md:gap-14 items-center">
         {/* Left — the thesis */}
         <motion.div
@@ -202,6 +202,11 @@ export function Hero() {
           </motion.div>
         </motion.div>
       </div>
+
+      {/* Torn edge — the ticket motif carried past the Hero card itself,
+          so the section boundary reads as torn paper instead of a flat
+          color cut into Features below. */}
+      <div className="ticket-tear h-4 w-full bg-[#1e3a2f]" aria-hidden="true" />
     </section>
   );
 }

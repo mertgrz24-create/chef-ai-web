@@ -28,7 +28,7 @@
   /* text */
   --text-primary: #17180f;   /* ink */
   --text-secondary: #4a4e42;
-  --text-muted: #8a8e80;
+  --text-muted: #6b6f62;     /* darkened from #8a8e80 — that failed WCAG AA (3.09:1 on chalk) */
 
   /* brand — pantry green */
   --brand: #1e3a2f;
@@ -70,7 +70,6 @@ body {
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.2s ease, color 0.2s ease;
   /* The site already gives its own scale/press feedback on tap; the
      browser's default gray flash just fights it. */
   -webkit-tap-highlight-color: transparent;

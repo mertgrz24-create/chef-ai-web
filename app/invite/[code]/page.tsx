@@ -48,7 +48,7 @@ export default async function InvitePage({ params }: { params: Promise<{ code: s
 
         {/* the code — the one thing that has to survive the trip */}
         <div className="mt-10 rounded-2xl border border-dashed border-[#cdf23e]/40 bg-black/20 px-6 py-7 text-center">
-          <p className="font-mono-ticket text-[10px] tracking-[0.18em] text-[#8fa093]">
+          <p className="font-mono-ticket text-[10px] tracking-[0.18em] text-[#a3b4a7]">
             YOUR INVITE CODE
           </p>
           <p className="font-mono-ticket mt-3 text-[26px] font-bold tracking-[0.2em] text-[#cdf23e]">

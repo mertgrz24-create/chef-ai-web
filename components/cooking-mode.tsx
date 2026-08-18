@@ -147,10 +147,13 @@ export function CookingMode({ recipeName, instructions, open, onClose }: Cooking
         </span>
         {/* Progress bar */}
         <div className="mt-2 mx-auto max-w-xs h-1 rounded-full bg-white/10 overflow-hidden">
+          {/* Full-width bar scaled via transform instead of animating
+              `width` — width/height changes trigger layout+paint on every
+              frame, transform is compositor-only. */}
           <div
-            className="h-full rounded-full transition-all duration-300"
+            className="h-full w-full rounded-full origin-left transition-transform duration-300 ease-out"
             style={{
-              width: `${((step + 1) / steps.length) * 100}%`,
+              transform: `scaleX(${(step + 1) / steps.length})`,
               backgroundColor: '#CDF23E',
             }}
           />

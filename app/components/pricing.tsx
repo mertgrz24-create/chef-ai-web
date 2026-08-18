@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { StoreBadges } from "@/components/marketing/store-badges";
 import { revealContainer, revealItem, EASE_OUT } from "@/lib/motion";
 import { SectionHeading } from "@/components/marketing/section-heading";
+import { CheckIcon } from "@/components/marketing/icons";
 
 const freeItems = ["Manual ingredient entry", "10 recipes per month", "Core features"];
 
@@ -45,7 +46,7 @@ export function Pricing() {
             <ul className="flex flex-col gap-3 flex-1">
               {freeItems.map((item) => (
                 <li key={item} className="flex items-center gap-2 text-sm text-[var(--text-secondary)]">
-                  <span className="text-[var(--brand)]">✓</span>
+                  <CheckIcon size={14} className="text-[var(--brand)] shrink-0" />
                   {item}
                 </li>
               ))}
@@ -77,14 +78,14 @@ export function Pricing() {
             <ul className="flex flex-col gap-3 flex-1">
               {premiumItems.map((item) => (
                 <li key={item} className="flex items-center gap-2 text-sm text-[#c3c8ba]">
-                  <span className="text-[#cdf23e]">✓</span>
+                  <CheckIcon size={14} className="text-[#cdf23e] shrink-0" />
                   {item}
                 </li>
               ))}
             </ul>
             {/* Upgrading is an in-app purchase — the web can only point at the store. */}
             <div className="flex flex-col gap-2.5">
-              <p className="font-mono-ticket text-[10px] tracking-[0.14em] text-[#8fa093]">
+              <p className="font-mono-ticket text-[10px] tracking-[0.14em] text-[#a3b4a7]">
                 UPGRADE INSIDE THE APP
               </p>
               <StoreBadges size="compact" />

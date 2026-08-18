@@ -46,9 +46,11 @@ export function Navbar() {
 
         {/* Mobile hamburger */}
         <button
-          className="md:hidden flex flex-col justify-center gap-1.5 p-2 transition-transform duration-150 ease-out active:scale-90"
+          className="md:hidden flex flex-col justify-center items-center gap-1.5 min-h-[44px] min-w-[44px] transition-transform duration-150 ease-out active:scale-90"
           onClick={() => setMenuOpen((prev) => !prev)}
-          aria-label="Toggle menu"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={menuOpen}
+          aria-controls="mobile-menu"
         >
           <span className="block w-6 h-0.5 bg-[#f5f6f1]" />
           <span className="block w-6 h-0.5 bg-[#f5f6f1]" />
@@ -59,15 +61,22 @@ export function Navbar() {
       {/* Mobile menu */}
       {menuOpen && (
         <motion.div
+          id="mobile-menu"
           initial={{ opacity: 0, y: -4 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.2, ease: EASE_OUT }}
-          className="md:hidden flex flex-col gap-2 px-6 py-4 border-t border-[#f5f6f1]/15"
+          className="md:hidden flex flex-col gap-1 px-6 py-4 border-t border-[#f5f6f1]/15"
         >
-          <a href="#features" className="text-sm py-2 text-[#c3c8ba] transition-colors [@media(hover:hover)]:hover:text-[#f5f6f1]">
+          <a
+            href="#features"
+            className="text-sm min-h-[44px] flex items-center text-[#c3c8ba] transition-colors [@media(hover:hover)]:hover:text-[#f5f6f1]"
+          >
             Features
           </a>
-          <a href="#pricing" className="text-sm py-2 text-[#c3c8ba] transition-colors [@media(hover:hover)]:hover:text-[#f5f6f1]">
+          <a
+            href="#pricing"
+            className="text-sm min-h-[44px] flex items-center text-[#c3c8ba] transition-colors [@media(hover:hover)]:hover:text-[#f5f6f1]"
+          >
             Pricing
           </a>
           <StoreBadges size="compact" className="mt-1" />

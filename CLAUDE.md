@@ -70,7 +70,7 @@ chef-ai-web/
 - **Components:** Server Component varsayılan. `"use client"` sadece state/event/effect gerektiğinde.
 - **Styling:** Tailwind utility-first.
 - **Naming:** Component dosyaları `kebab-case.tsx`, component isimleri `PascalCase`.
-- **Animations:** Framer Motion, 200-400ms aralığında, easing `ease-out`. Spammeyen, premium hissi veren geçişler.
+- **Animations:** Framer Motion. Paylaşılan hareket dili `lib/motion.ts`'te (`EASE_OUT`/`EASE_IN_OUT` custom cubic-bezier, `revealContainer`/`revealItem`, `iconDraw`) — yeni component'lerde bunları tekrar tanımlamak yerine import et. Süreler genelde 150-500ms; pazarlama-özel bir vurgu anıysa (Hero ticket'ının print-in'i gibi) 650ms'e kadar çıkabilir.
 - **Tema:** Tek tema (pantry-green/electric-lime/ink/chalk paleti) — dark/light toggle yok, next-themes kaldırıldı.
 
 ---

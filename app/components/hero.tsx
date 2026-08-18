@@ -10,6 +10,7 @@ import {
   type Variants,
 } from "framer-motion";
 import { StoreBadges } from "@/components/marketing/store-badges";
+import { TimerIcon, DotIcon } from "@/components/marketing/icons";
 import { revealContainer as container, revealItem as item, EASE_OUT } from "@/lib/motion";
 
 // Subtle scroll parallax on the ticket — decorative, so a spring (not a
@@ -62,7 +63,7 @@ const ticketIngredients = [
 
 function RecipeTicket() {
   return (
-    <div className="relative w-full max-w-[340px] font-mono-ticket">
+    <div className="relative w-full max-w-[400px] font-mono-ticket">
       {/* subtle stacked paper behind, for depth */}
       <div
         className="absolute inset-0 translate-x-2 translate-y-2 rounded-[14px] bg-black/20"
@@ -72,7 +73,10 @@ function RecipeTicket() {
         {/* Ticket header — ink bar */}
         <div className="bg-[#17180f] text-[#f5f6f1] px-4 py-2.5 flex items-center justify-between text-[11px] tracking-widest">
           <span>ORDER #0428</span>
-          <span className="text-[#cdf23e]">⏱ 35 MIN</span>
+          <span className="text-[#cdf23e] inline-flex items-center gap-1">
+            <TimerIcon size={12} />
+            35 MIN
+          </span>
         </div>
 
         <div className="px-5 pt-4 pb-5">
@@ -88,7 +92,7 @@ function RecipeTicket() {
           <ul className="flex flex-col gap-1.5 text-[12px] text-[#4a4e42]">
             {ticketIngredients.map((line) => (
               <li key={line} className="flex items-center gap-2">
-                <span className="text-[#1e3a2f]">▪</span>
+                <DotIcon size={6} className="text-[#1e3a2f] shrink-0" />
                 {line}
               </li>
             ))}
@@ -98,7 +102,7 @@ function RecipeTicket() {
           <div className="my-4 border-t border-dashed border-[#cbcdc2]" />
 
           {/* macros — mono data row */}
-          <div className="flex justify-between text-[11px] text-[#8a8e80] mb-4">
+          <div className="flex justify-between text-[11px] text-[#6f7366] mb-4">
             <span>520 KCAL</span>
             <span>42 P</span>
             <span>48 C</span>
@@ -119,7 +123,7 @@ export function Hero() {
 
   return (
     <section className="paper-grain bg-[#1e3a2f] text-[#f5f6f1]">
-      <div className="max-w-6xl mx-auto px-6 py-20 md:py-28 grid md:grid-cols-[1.1fr_0.9fr] md:gap-14 items-center">
+      <div className="max-w-6xl mx-auto px-6 py-20 md:py-28 grid md:grid-cols-[1.05fr_0.95fr] md:gap-8 items-center">
         {/* Left — the thesis */}
         <motion.div
           variants={container}
@@ -134,10 +138,11 @@ export function Hero() {
             </span>
           </motion.div>
 
-          {/* headline — the thesis, display face */}
+          {/* headline — the thesis, display face. Sized to be the page's
+              dominant visual mass, not a polite intro line. */}
           <motion.h1
             variants={item}
-            className="font-display text-[38px] md:text-[52px] leading-[1.02] font-semibold"
+            className="font-display text-[42px] md:text-[74px] leading-[0.98] tracking-tight font-semibold"
           >
             Tonight&apos;s dinner is
             <br />
@@ -168,7 +173,7 @@ export function Hero() {
 
           {/* the raw input — pantry tags */}
           <motion.div variants={item} className="mt-3">
-            <p className="font-mono-ticket text-[10px] tracking-[0.18em] text-[#8fa093] mb-2.5">
+            <p className="font-mono-ticket text-[10px] tracking-[0.18em] text-[#a3b4a7] mb-2.5">
               IN YOUR PANTRY
             </p>
             <div className="flex flex-wrap gap-2">
@@ -187,13 +192,15 @@ export function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* Right — the fired ticket */}
+        {/* Right — the fired ticket. Bleeds left into the text column's
+            gap via negative margin (md+ only) so the two columns read as
+            layered rather than two tidy, locked-together boxes. */}
         <motion.div
           ref={parallaxRef}
           variants={ticketVariant}
           initial="hidden"
           animate="visible"
-          className="hidden md:flex justify-center items-center"
+          className="hidden md:flex justify-center items-center md:-ml-10"
         >
           {/* Separate element for scroll parallax so its `transform` string
               never competes with the entrance variant's own transform. */}

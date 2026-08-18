@@ -32,7 +32,7 @@ export function StoreBadges({ tone = 'dark', size = 'default', className = '' }:
     // and a control that does nothing on click is worse than a plain label.
     const mutedTone =
       tone === 'dark'
-        ? 'border-[#f5f6f1]/20 text-[#8fa093]'
+        ? 'border-[#f5f6f1]/20 text-[#a3b4a7]'
         : 'border-[var(--border)] text-[var(--text-muted)]'
 
     return (
@@ -45,7 +45,7 @@ export function StoreBadges({ tone = 'dark', size = 'default', className = '' }:
           COMING SOON
         </span>
         <span
-          className={`text-xs ${tone === 'dark' ? 'text-[#8fa093]' : 'text-[var(--text-muted)]'}`}
+          className={`text-xs ${tone === 'dark' ? 'text-[#a3b4a7]' : 'text-[var(--text-muted)]'}`}
         >
           iOS and Android — landing shortly.
         </span>

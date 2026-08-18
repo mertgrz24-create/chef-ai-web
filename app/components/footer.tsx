@@ -30,7 +30,7 @@ export function Footer() {
               <span className="text-[#f5f6f1]">Chef</span>
               <span style={{ color: "#cdf23e" }}>AI</span>
             </span>
-            <p className="text-sm" style={{ color: "#8fa093" }}>
+            <p className="text-sm" style={{ color: "#a3b4a7" }}>
               Cook what you already have.
             </p>
           </div>
@@ -46,7 +46,7 @@ export function Footer() {
                   <a
                     key={link}
                     href="#"
-                    className="text-sm transition-colors [@media(hover:hover)]:hover:text-white"
+                    className="text-sm py-3 -my-3 inline-block transition-colors [@media(hover:hover)]:hover:text-white"
                     style={{ color: "#888" }}
                   >
                     {link}
@@ -62,10 +62,10 @@ export function Footer() {
           className="flex flex-col md:flex-row md:justify-between gap-2 md:gap-0 pt-6"
           style={{ borderTop: "1px solid #333" }}
         >
-          <p className="text-xs" style={{ color: "#6e7263" }}>
+          <p className="text-xs" style={{ color: "#868a7c" }}>
             © 2026 Chef-AI. All rights reserved.
           </p>
-          <p className="font-mono-ticket text-xs tracking-wide" style={{ color: "#555" }}>
+          <p className="font-mono-ticket text-xs tracking-wide" style={{ color: "#82866f" }}>
             POWERED BY CLAUDE + GEMINI
           </p>
         </div>

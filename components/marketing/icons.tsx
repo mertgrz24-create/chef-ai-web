@@ -61,6 +61,24 @@ export function TimerIcon({ size = 22, className }: IconProps) {
   )
 }
 
+export function CheckIcon({ size = 22, className }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" className={className} {...base}>
+      <motion.path variants={iconDraw} d="M5 12.5 9.5 17 19 6.5" />
+    </svg>
+  )
+}
+
+// A filled dot rather than a stroked shape — at list-bullet size (used
+// inline at ~6px), an outlined circle would just look like a smudge.
+export function DotIcon({ size = 6, className }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 8 8" className={className} aria-hidden="true">
+      <circle cx="4" cy="4" r="4" fill="currentColor" />
+    </svg>
+  )
+}
+
 export function ChefHatIcon({ size = 22, className }: IconProps) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" className={className} {...base}>

@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "patches": [
+    {
+      "path": "braces/lib/security-guard.js",
+      "beforeHash": null,
+      "afterHash": "98ce3d8e83073f343d958ab3a1591231b9df48b3f2b012c477f254bcb3277543",
+      "edits": null,
+      "content": "'use strict';\n// Iterative traversal ignores parent/prev links. Limit depth before recursive walkers run.\nmodule.exports = ast => {\n  const pending = [[ast, 0]];\n  const seen = new Set();\n  let count = 0;\n  while (pending.length) {\n    const [node, depth] = pending.pop();\n    if (!node || typeof node !== 'object') continue;\n    if (depth > 64 || seen.has(node) || ++count > 100000) {\n      throw new RangeError('Brace AST exceeds safe traversal limits');\n    }\n    seen.add(node);\n    if (Array.isArray(node.nodes)) {\n      for (const child of node.nodes) pending.push([child, depth + 1]);\n    }\n  }\n};\n"
+    },
+    {
+      "path": "braces/lib/parse.js",
+      "beforeHash": "e572166565f15fa6ad9865ae49d678218e32aabfd1b3720f6d0d43d39800d310",
+      "afterHash": "5a454173d77642c9d9bd3c9bf48d6aaf7bb473e98e5056811e6d95e7fd28fc06",
+      "edits": [
+        {
+          "before": "  while (index < length) {",
+          "after": "  while (index < length) {\n    if (stack.length > 64) throw new RangeError('Brace nesting exceeds safe traversal limits');"
+        }
+      ],
+      "content": null
+    },
+    {
+      "path": "braces/lib/compile.js",
+      "beforeHash": "dc98f22eee3d511785d92a00758d5f0d48efed5f5813bdecc2de430c529b5c9f",
+      "afterHash": "0a9b01b9f78e408699dfeb13995abc780dadc6ad7ad7d9b500409464fc6b4932",
+      "edits": [
+        {
+          "before": "const compile = (ast, options = {}) => {",
+          "after": "const compile = (ast, options = {}) => {\n  require('./security-guard')(ast);"
+        }
+      ],
+      "content": null
+    },
+    {
+      "path": "braces/lib/expand.js",
+      "beforeHash": "41ccc196ebfa7b7781a634e721eb744e4e7bcb54cba427a7e3d6806a1b9e58f7",
+      "afterHash": "8c4a403057ced9436bcc1d311980a8be56825cc513a631fc2d5beb268b32b85c",
+      "edits": [
+        {
+          "before": "const expand = (ast, options = {}) => {",
+          "after": "const expand = (ast, options = {}) => {\n  require('./security-guard')(ast);"
+        }
+      ],
+      "content": null
+    },
+    {
+      "path": "braces/lib/stringify.js",
+      "beforeHash": "379f22d77bfa1478341ccd49c5e4267464aabcbba03558bab332aac23fc6f23a",
+      "afterHash": "bc5a54cfe721ff16b8d664cd37427a1b340ccf74d3a45e9d177e36426891e1b3",
+      "edits": [
+        {
+          "before": "module.exports = (ast, options = {}) => {",
+          "after": "module.exports = (ast, options = {}) => {\n  require('./security-guard')(ast);"
+        }
+      ],
+      "content": null
+    }
+  ]
+}

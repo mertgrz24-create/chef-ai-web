@@ -10,7 +10,9 @@ const eslintConfig = [
   { ignores: ['.next/**', 'node_modules/**', 'out/**', 'build/**', 'next-env.d.ts', 'mobile/**'] },
   ...coreWebVitals,
   ...typescript,
+  { files: ['scripts/security/*.cjs'], rules: { '@typescript-eslint/no-require-imports':'off' } },
   {
+    files: ['**/*.{js,jsx,ts,tsx}'],
     rules: {
       // React 19's react-hooks plugin adds this rule, which flags long-standing,
       // working patterns here (e.g. the mount-guard `useEffect(() => setMounted(true), [])`).

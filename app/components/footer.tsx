@@ -1,73 +1,34 @@
-// Plain server component — no "use client" needed. The footer used to
-// fade in on scroll, but that had no purpose (it's always visible once
-// reached; the visitor isn't looking anywhere else). Dropping it also
-// drops the framer-motion import from this leaf of the tree.
+import { copy, homePath, type Locale } from "@/lib/marketing";
+import { LanguageSwitch } from "@/components/marketing/language-switch";
 
-const linkGroups = [
-  {
-    title: "Product",
-    links: ["Features", "Pricing", "Blog"],
-  },
-  {
-    title: "Company",
-    links: ["About", "Contact"],
-  },
-  {
-    title: "Legal",
-    links: ["Privacy", "Terms of Service"],
-  },
-];
-
-export function Footer() {
+export function Footer({ locale }: { locale: Locale }) {
+  const text = copy[locale];
   return (
-    <footer className="paper-grain" style={{ backgroundColor: "#17180f" }}>
-      <div className="max-w-6xl mx-auto px-6 py-12">
-        {/* Top row */}
-        <div className="flex flex-col md:flex-row md:justify-between gap-10 md:gap-0 pb-10">
-          {/* Logo + tagline */}
-          <div className="flex flex-col gap-2">
-            <span className="font-display text-lg font-bold tracking-tight">
-              <span className="text-[#f5f6f1]">Chef</span>
-              <span style={{ color: "#cdf23e" }}>AI</span>
-            </span>
-            <p className="text-sm" style={{ color: "#a3b4a7" }}>
-              Cook what you already have.
-            </p>
+    <footer className="site-footer on-dark">
+      <div className="container">
+        <div className="footer-top">
+          <div>
+            <a
+              href={homePath(locale)}
+              className="wordmark"
+              aria-label="Chef-AI"
+              translate="no"
+            >
+              Chef<span>AI</span>
+            </a>
+            <p>{text.footer.tagline}</p>
           </div>
-
-          {/* Link groups */}
-          <div className="flex gap-12">
-            {linkGroups.map((group) => (
-              <div key={group.title} className="flex flex-col gap-3">
-                <p className="text-xs font-semibold text-white">
-                  {group.title}
-                </p>
-                {group.links.map((link) => (
-                  <a
-                    key={link}
-                    href="#"
-                    className="text-sm py-3 -my-3 inline-block transition-colors [@media(hover:hover)]:hover:text-white"
-                    style={{ color: "#888" }}
-                  >
-                    {link}
-                  </a>
-                ))}
-              </div>
-            ))}
-          </div>
+          <nav aria-label={text.footer.nav}>
+            <a href="#features">{text.nav.features}</a>
+            <a href="#development">{text.nav.development}</a>
+            <a href="#pricing">{text.nav.pricing}</a>
+          </nav>
         </div>
-
-        {/* Bottom row */}
-        <div
-          className="flex flex-col md:flex-row md:justify-between gap-2 md:gap-0 pt-6"
-          style={{ borderTop: "1px solid #333" }}
-        >
-          <p className="text-xs" style={{ color: "#868a7c" }}>
-            © 2026 Chef-AI. All rights reserved.
+        <div className="footer-bottom">
+          <p>
+            © 2026 <span translate="no">Chef-AI.</span> {text.footer.rights}
           </p>
-          <p className="font-mono-ticket text-xs tracking-wide" style={{ color: "#82866f" }}>
-            POWERED BY CLAUDE + GEMINI
-          </p>
+          <LanguageSwitch locale={locale} />
         </div>
       </div>
     </footer>

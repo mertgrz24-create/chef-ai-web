@@ -1,87 +1,103 @@
 "use client";
 
-import { useState } from "react";
-import { motion, useMotionValueEvent, useScroll } from "framer-motion";
-import Link from "next/link";
-import { StoreBadges } from "@/components/marketing/store-badges";
-import { EASE_OUT } from "@/lib/motion";
+import { useEffect, useRef, useState } from "react";
+import { copy, homePath, type Locale } from "@/lib/marketing";
+import { LanguageSwitch } from "@/components/marketing/language-switch";
 
-export function Navbar() {
+export function Navbar({ locale }: { locale: Locale }) {
+  const text = copy[locale].nav;
   const [menuOpen, setMenuOpen] = useState(false);
-  // Functional, not decorative: the sticky header darkens and gains a
-  // shadow once the page has actually scrolled, so it reads as anchored to
-  // scroll position instead of a static bar that never responds.
-  const [scrolled, setScrolled] = useState(false);
-  const { scrollY } = useScroll();
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    setScrolled(latest > 24);
-  });
-
+  const menuButton = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (!menuOpen) return;
+    function closeOnEscape(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+        menuButton.current?.focus();
+      }
+    }
+    const desktop = window.matchMedia("(min-width: 768px)");
+    const closeOnDesktop = () => {
+      if (desktop.matches) setMenuOpen(false);
+    };
+    document.addEventListener("keydown", closeOnEscape);
+    desktop.addEventListener("change", closeOnDesktop);
+    return () => {
+      document.removeEventListener("keydown", closeOnEscape);
+      desktop.removeEventListener("change", closeOnDesktop);
+    };
+  }, [menuOpen]);
+  const links = [
+    ["#features", text.features],
+    ["#how-it-works", text.how],
+    ["#pricing", text.pricing],
+  ];
+  const renderLinks = () =>
+    links.map(([href, label]) => (
+      <a key={href} href={href} onClick={() => setMenuOpen(false)}>
+        {label}
+      </a>
+    ));
   return (
-    <motion.header
-      initial={{ opacity: 0, y: -8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, ease: EASE_OUT }}
-      className={`sticky top-0 z-50 w-full text-[#f5f6f1] transition-[background-color,box-shadow] duration-300 ease-out ${
-        scrolled ? "bg-[#16281e] shadow-[0_8px_24px_-12px_rgba(0,0,0,0.5)]" : "bg-[#1e3a2f]"
-      }`}
-    >
-      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="font-display text-lg font-bold tracking-tight">
-          <span>Chef</span>
-          <span className="text-[#cdf23e]">AI</span>
-        </Link>
-
-        {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-8">
-          <a href="#features" className="text-sm text-[#c3c8ba] transition-colors [@media(hover:hover)]:hover:text-[#f5f6f1]">
-            Features
-          </a>
-          <a href="#pricing" className="text-sm text-[#c3c8ba] transition-colors [@media(hover:hover)]:hover:text-[#f5f6f1]">
-            Pricing
-          </a>
-          <StoreBadges size="compact" />
+    <header className="site-header on-dark">
+      <div className="container nav-row">
+        <a
+          className="wordmark"
+          href={homePath(locale)}
+          aria-label="Chef-AI"
+          translate="no"
+        >
+          Chef<span>AI</span>
+        </a>
+        <nav className="desktop-nav" aria-label={text.label}>
+          {renderLinks()}
         </nav>
-
-        {/* Mobile hamburger */}
-        <button
-          className="md:hidden flex flex-col justify-center items-center gap-1.5 min-h-[44px] min-w-[44px] transition-transform duration-150 ease-out active:scale-90"
-          onClick={() => setMenuOpen((prev) => !prev)}
-          aria-label={menuOpen ? "Close menu" : "Open menu"}
-          aria-expanded={menuOpen}
-          aria-controls="mobile-menu"
-        >
-          <span className="block w-6 h-0.5 bg-[#f5f6f1]" />
-          <span className="block w-6 h-0.5 bg-[#f5f6f1]" />
-          <span className="block w-6 h-0.5 bg-[#f5f6f1]" />
-        </button>
+        <div className="nav-tools">
+          <LanguageSwitch locale={locale} />
+          <button
+            ref={menuButton}
+            className="menu-toggle"
+            onClick={() => setMenuOpen((value) => !value)}
+            aria-label={menuOpen ? text.close : text.open}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              aria-hidden="true"
+            >
+              <path
+                d={
+                  menuOpen ? "m6 6 12 12M6 18 18 6" : "M4 7h16M4 12h16M4 17h16"
+                }
+              />
+            </svg>
+          </button>
+        </div>
       </div>
-
-      {/* Mobile menu */}
-      {menuOpen && (
-        <motion.div
-          id="mobile-menu"
-          initial={{ opacity: 0, y: -4 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.2, ease: EASE_OUT }}
-          className="md:hidden flex flex-col gap-1 px-6 py-4 border-t border-[#f5f6f1]/15"
-        >
-          <a
-            href="#features"
-            className="text-sm min-h-[44px] flex items-center text-[#c3c8ba] transition-colors [@media(hover:hover)]:hover:text-[#f5f6f1]"
-          >
-            Features
-          </a>
-          <a
-            href="#pricing"
-            className="text-sm min-h-[44px] flex items-center text-[#c3c8ba] transition-colors [@media(hover:hover)]:hover:text-[#f5f6f1]"
-          >
-            Pricing
-          </a>
-          <StoreBadges size="compact" className="mt-1" />
-        </motion.div>
-      )}
-    </motion.header>
+      <nav
+        id="mobile-menu"
+        className="mobile-menu container"
+        aria-label={text.label}
+        hidden={!menuOpen}
+      >
+        {renderLinks()}
+      </nav>
+      <noscript>
+        <style>{".menu-toggle { display: none !important; }"}</style>
+        <nav className="noscript-nav container" aria-label={text.label}>
+          {links.map(([href, label]) => (
+            <a key={href} href={href}>
+              {label}
+            </a>
+          ))}
+        </nav>
+      </noscript>
+    </header>
   );
 }

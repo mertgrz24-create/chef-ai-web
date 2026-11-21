@@ -2,149 +2,858 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Pantry & Zest: primitive → semantic → component tokens. */
+:root {
+  --color-cream: #f5f0e5;
+  --color-paper: #fff9ef;
+  --color-pantry: #1e3a2f;
+  --color-lime: #cdf23e;
+  --color-ink: #17180f;
+  --color-secondary: #4a4e42;
+  --color-muted: #686e5e;
+  --color-line: #ddd3c1;
+  --color-soft: #ebe3d3;
+  --color-chalk-2: #c3c8ba;
+  --color-chalk-muted: #a4b5a8;
+  --bg: var(--color-cream);
+  --bg-card: var(--color-paper);
+  --surface-2: var(--color-soft);
+  --border: var(--color-line);
+  --text-primary: var(--color-ink);
+  --text-secondary: var(--color-secondary);
+  --text-muted: var(--color-muted);
+  --brand: var(--color-pantry);
+  --brand-ink: var(--color-cream);
+  --accent: var(--color-lime);
+  --accent-ink: var(--color-ink);
+  --focus-color: var(--brand);
+  --space-section: clamp(4rem, 7vw, 7rem);
+  --page-gutter: clamp(1.25rem, 4vw, 3rem);
+  --radius-panel: 1.5rem;
+  --duration-fast: 160ms;
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+  --button-bg: var(--brand);
+  --button-fg: var(--brand-ink);
+  --button-hover-bg: #294d3e;
+  --shadow-brand: 0 20px 50px -20px rgb(12 32 22 / 45%);
+}
+
 *,
 *::before,
 *::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
-
-/*
-  "Mise en Place" design system.
-  Palette — Pantry & Zest: deep pantry green + one electric-lime accent.
-  Existing var names (--bg, --bg-card, --accent, …) are preserved so the
-  dashboard keeps rendering; only their values change here.
-*/
-:root {
-  /* surfaces */
-  --bg: #f5f6f1;          /* chalk — cool paper, not cream */
-  --bg-card: #ffffff;
-  --bg-sidebar: #ffffff;
-  --surface-2: #eceee6;   /* subtle raised */
-  --border: #e2e4da;
-  --border-subtle: #edeee8;
-
-  /* text */
-  --text-primary: #17180f;   /* ink */
-  --text-secondary: #4a4e42;
-  --text-muted: #6b6f62;     /* darkened from #8a8e80 — that failed WCAG AA (3.09:1 on chalk) */
-
-  /* brand — pantry green */
-  --brand: #1e3a2f;
-  --brand-ink: #f5f6f1;      /* text on brand */
-
-  /* accent — electric lime (the one bold move) */
-  --accent: #cdf23e;
-  --accent-ink: #17180f;     /* dark text on lime */
-  --accent-light: #f2f8dc;   /* faint lime wash */
-  --accent-border: #dcecb0;
-
-  /* functional — expiry / warmth */
-  --clay: #e8623d;
-
-  /* motion — Emil Kowalski's strong custom eases; the CSS built-ins
-     (ease-out, ease-in-out) are too weak to feel intentional. */
-  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
-  --ease-in-out-strong: cubic-bezier(0.77, 0, 0.175, 1);
-
-  /* Shadows tinted with the brand's own ink/pantry-green instead of flat
-     black — generic box-shadow is one of the most common "AI slop" tells. */
-  --shadow-brand: 0 25px 60px -15px rgba(23, 42, 33, 0.45);
+html {
+  scroll-padding-top: 6rem;
 }
-
-/* Authored as a real class rather than Tailwind's `shadow-[var(...)]`
-   bracket syntax — Tailwind's arbitrary-value type inference doesn't
-   reliably recognize a bare var() reference as a shadow value, so that
-   form silently produces no rule. A plain class also composes correctly
-   with a later `hover:shadow-[...]` utility (cascade order decides,
-   unlike an inline style which would always win regardless of :hover). */
-.shadow-brand {
-  box-shadow: var(--shadow-brand);
-}
-
 body {
-  background-color: var(--bg);
+  margin: 0;
+  background: var(--bg);
   color: var(--text-primary);
   font-family: var(--font-body), system-ui, sans-serif;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  /* The site already gives its own scale/press feedback on tap; the
-     browser's default gray flash just fights it. */
   -webkit-tap-highlight-color: transparent;
 }
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+figure {
+  margin: 0;
+}
+h1,
+h2,
+h3 {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 600;
+  text-wrap: balance;
+  letter-spacing: -0.035em;
+}
+h1 {
+  font-size: clamp(2.75rem, 5.6vw, 5rem);
+  line-height: 1.04;
+  color: var(--brand);
+}
+h2 {
+  font-size: clamp(2rem, 3.3vw, 3rem);
+  line-height: 1.12;
+}
+h3 {
+  font-size: 1.375rem;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+}
+p {
+  text-wrap: pretty;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+a,
+button {
+  touch-action: manipulation;
+}
+svg {
+  flex-shrink: 0;
+}
+:where(a, button, [tabindex]):focus-visible {
+  outline: 2px solid var(--focus-color);
+  outline-offset: 5px;
+  border-radius: 3px;
+}
+main:focus {
+  outline: none;
+}
+section[id] {
+  scroll-margin-top: 6rem;
+}
+[hidden] {
+  display: none !important;
+}
+.container {
+  width: 100%;
+  max-width: 1248px;
+  margin-inline: auto;
+  padding-inline: var(--page-gutter);
+}
+.section {
+  padding-block: var(--space-section);
+}
+.eyebrow {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.6;
+  color: var(--brand);
+}
+.on-dark {
+  background: var(--brand);
+  color: var(--brand-ink);
+  --text-secondary: var(--color-chalk-2);
+  --text-muted: var(--color-chalk-muted);
+  --focus-color: var(--accent);
+}
+.on-dark .eyebrow {
+  color: var(--accent);
+}
+.section-heading {
+  margin-bottom: 2.75rem;
+}
+.section-heading h2 {
+  margin-top: 0.875rem;
+  max-width: 20ch;
+}
+.section-intro {
+  margin-top: 1.25rem;
+  max-width: 54ch;
+  color: var(--text-secondary);
+}
+.skip-link {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 100;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+  background: var(--accent);
+  color: var(--accent-ink);
+  transform: translateY(-200%);
+  font-weight: 600;
+}
+.skip-link:focus {
+  transform: none;
+}
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: 1.5rem;
+  letter-spacing: -0.07em;
+}
+.wordmark span {
+  color: var(--brand);
+}
+.on-dark .wordmark span {
+  color: var(--accent);
+}
+.language-switch {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  min-width: 44px;
+  min-height: 44px;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 1px solid rgb(245 240 229 / 16%);
+}
+.nav-row {
+  min-height: 76px;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+.desktop-nav {
+  display: flex;
+  gap: 1.75rem;
+  margin-left: auto;
+}
+.desktop-nav a,
+.mobile-menu a,
+.noscript-nav a {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  font-size: 0.875rem;
+}
+.desktop-nav a {
+  color: var(--text-secondary);
+}
+.nav-tools {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.menu-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
+  border: 1px solid rgb(245 240 229 / 25%);
+  border-radius: 0.5rem;
+  background: transparent;
+}
+.mobile-menu {
+  display: none;
+}
+.noscript-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-bottom: 1rem;
+}
+.button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.25rem;
+  min-height: 52px;
+  padding: 0.875rem 1.5rem;
+  border-radius: 0.625rem;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  transition:
+    background-color var(--duration-fast),
+    transform var(--duration-fast) var(--ease-out-strong);
+}
+.button-primary {
+  background: var(--button-bg);
+  color: var(--button-fg);
+}
+.button:active,
+.menu-toggle:active {
+  transform: scale(0.98);
+}
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+.hero {
+  padding-block: clamp(3.5rem, 7vw, 6rem);
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.12fr 0.88fr;
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+}
+.hero-copy {
+  min-width: 0;
+}
+.hero h1 {
+  margin-top: 1.5rem;
+  max-width: 15ch;
+}
+.hero-description {
+  margin-top: 1.75rem;
+  max-width: 44ch;
+  color: var(--text-secondary);
+  font-size: 1.125rem;
+  line-height: 1.65;
+}
+.hero .button {
+  margin-top: 2rem;
+}
+.availability-note {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+.status-dot {
+  height: 7px;
+  width: 7px;
+  border-radius: 50%;
+  background: var(--brand);
+  flex-shrink: 0;
+}
+.ingredient-story {
+  min-width: 0;
+  padding-top: 1rem;
+}
+.workbench {
+  border-radius: 2rem;
+  padding: clamp(1.25rem, 3vw, 2.5rem);
+}
+.ingredient-tags {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.ingredient-tags li {
+  font-size: 0.875rem;
+  border: 1px solid rgb(245 240 229 / 35%);
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.75rem;
+}
+.story-connector {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding-block: 1.5rem;
+  color: var(--accent);
+}
+.story-connector span {
+  width: 1px;
+  height: 2rem;
+  background: var(--accent);
+  opacity: 0.7;
+}
+.story-connector svg {
+  transform: rotate(90deg);
+}
+.recipe-paper {
+  position: relative;
+  background: var(--bg-card);
+  color: var(--color-ink);
+  border-radius: 0.625rem;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-brand);
+  transform: rotate(-2deg);
+}
+.ticket-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px dashed var(--color-line);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+}
+.recipe-paper .eyebrow {
+  color: var(--brand);
+  font-size: 0.625rem;
+}
+.recipe-paper h2 {
+  font-size: clamp(1.75rem, 2.8vw, 2.5rem);
+  line-height: 1.05;
+  margin-top: 0.625rem;
+}
+.recipe-note {
+  color: var(--color-secondary);
+  font-size: 0.875rem;
+  margin-top: 1rem;
+}
+.ticket-end {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--color-line);
+}
+.ticket-end span {
+  width: 5px;
+  height: 1rem;
+  background: var(--color-ink);
+}
+.ticket-end span:nth-child(even) {
+  width: 2px;
+}
+.story-caption {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.6875rem;
+  color: var(--text-secondary);
+  margin-top: 2rem;
+}
+.ingredient-story figcaption {
+  margin-top: 1.25rem;
+  font-size: 0.75rem;
+  text-align: center;
+  color: var(--text-muted);
+}
+.paper-grain {
+  position: relative;
+  isolation: isolate;
+}
+.paper-grain::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
+}
+.features {
+  background: var(--bg-card);
+}
+.feature-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 1.25rem;
+}
+.feature-card {
+  display: flex;
+  gap: 1.25rem;
+  padding: 2rem;
+  border-radius: var(--radius-panel);
+  border: 1px solid var(--border);
+}
+.feature-card h3 {
+  margin-bottom: 0.75rem;
+}
+.feature-card p {
+  color: var(--text-secondary);
+  max-width: 45ch;
+}
+.feature-icon {
+  color: var(--brand);
+}
+.feature-lead {
+  grid-row: span 2;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 3rem;
+  padding: clamp(2rem, 4vw, 3rem);
+  border: 0;
+}
+.feature-lead .feature-icon {
+  color: var(--accent);
+}
+.feature-lead h3 {
+  font-size: clamp(1.75rem, 2.8vw, 2.5rem);
+  max-width: 16ch;
+}
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2.5rem;
+  list-style: none;
+  padding: 0;
+}
+.steps li {
+  border-top: 1px solid var(--border);
+  padding-top: 1.5rem;
+}
+.step-number {
+  display: block;
+  font-family: var(--font-mono), monospace;
+  font-size: 2.25rem;
+  line-height: 1.1;
+  color: var(--brand);
+  margin-bottom: 1.5rem;
+  font-variant-numeric: tabular-nums;
+}
+.steps h3 {
+  margin-bottom: 0.75rem;
+}
+.steps p {
+  color: var(--text-secondary);
+}
+.recipe-check-note {
+  border-top: 1px dashed var(--border);
+  padding-top: 1.5rem;
+  margin-top: 3rem;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  max-width: 85ch;
+}
+.development-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+}
+.development .section-heading {
+  margin-bottom: 0;
+}
+.development-list article {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  border-top: 1px solid rgb(245 240 229 / 25%);
+  padding-block: 1.75rem;
+}
+.development-list article:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+.development-list article:last-child {
+  padding-bottom: 0;
+}
+.development-list svg {
+  color: var(--accent);
+  margin-top: 0.25rem;
+}
+.development-list p {
+  color: var(--text-secondary);
+  margin-top: 0.75rem;
+  font-size: 0.9375rem;
+}
+.access-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+}
+.access .section-heading {
+  margin-bottom: 2rem;
+}
+.membership-notes {
+  align-self: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-panel);
+  padding: 2rem;
+  background: var(--bg-card);
+}
+.membership-notes article + article {
+  border-top: 1px solid var(--border);
+  padding-top: 1.75rem;
+  margin-top: 1.75rem;
+}
+.membership-notes p {
+  margin-top: 0.875rem;
+  color: var(--text-secondary);
+}
+.membership-notes h3 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+.inline-status {
+  font-family: var(--font-body), sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0;
+  color: var(--text-muted);
+  border-left: 1px solid var(--border);
+  padding-left: 0.75rem;
+}
+.store-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.store-pending,
+.store-link {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.125rem;
+  padding: 0.625rem 1.125rem;
+  border-radius: 0.625rem;
+  border: 1px dashed var(--border);
+  min-height: 64px;
+}
+.store-pending > span:first-child {
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+.store-pending > span:last-child {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+.store-link {
+  border-style: solid;
+  background: var(--brand);
+  color: var(--brand-ink);
+  flex-direction: row;
+  align-items: center;
+}
+.site-footer {
+  padding-block: 3rem 1.5rem;
+}
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-bottom: 2.5rem;
+}
+.footer-top p {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  max-width: 35ch;
+}
+.footer-top nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  column-gap: 2rem;
+}
+.footer-top nav a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  font-size: 0.875rem;
+}
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  border-top: 1px solid rgb(245 240 229 / 25%);
+  padding-top: 1rem;
+}
+.footer-bottom p {
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}
+.standalone-page {
+  min-height: 100dvh;
+}
+.standalone-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 1rem;
+}
+.invite-main,
+.missing-main {
+  max-width: 750px;
+  padding-block: clamp(3rem, 8vw, 6rem);
+}
+.invite-main h1,
+.missing-main h1 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  margin-top: 1.5rem;
+}
+.standalone-description {
+  margin-top: 1.5rem;
+  color: var(--text-secondary);
+  font-size: 1.0625rem;
+  max-width: 55ch;
+}
+.invite-ticket {
+  margin-top: 2.5rem;
+  padding: clamp(1.25rem, 4vw, 2rem);
+  background: var(--bg-card);
+  border: 1px dashed var(--brand);
+  border-radius: 1rem;
+}
+.invite-code {
+  font-family: var(--font-mono), monospace;
+  font-size: clamp(1.0625rem, 4vw, 1.75rem);
+  margin-top: 0.75rem;
+  color: var(--brand);
+  user-select: all;
+  overflow-wrap: anywhere;
+}
+.invite-note {
+  margin-block: 1.5rem;
+  color: var(--text-secondary);
+}
+.invite-main .text-link {
+  margin-top: 2rem;
+}
+.missing-main .button {
+  margin-top: 2rem;
+}
 
-/* Anchor nav (#features, #pricing, #how-it-works) glides instead of
-   jump-cutting. Gated behind no-preference so reduced-motion users keep
-   the instant jump, which is the correct behavior for them. */
+@media (hover: hover) and (pointer: fine) {
+  .button-primary:hover {
+    background: var(--button-hover-bg);
+    transform: translateY(-2px);
+  }
+  .desktop-nav a:hover,
+  .footer-top nav a:hover,
+  .mobile-menu a:hover {
+    text-decoration: underline;
+    text-underline-offset: 6px;
+  }
+  .language-switch:hover,
+  .text-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 5px;
+  }
+  .store-link:hover {
+    background: var(--button-hover-bg);
+  }
+}
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
   }
+  .recipe-paper {
+    animation: ticket-arrive 550ms var(--ease-out-strong) both;
+  }
+  @keyframes ticket-arrive {
+    from {
+      transform: translateY(12px) rotate(0deg);
+    }
+    to {
+      transform: translateY(0) rotate(-2deg);
+    }
+  }
 }
-
-/* Display face carries the personality — used with restraint on headings.
-   text-wrap: balance keeps wrapped headlines from stranding a single
-   orphaned word on the last line. */
-.font-display {
-  font-family: var(--font-display), system-ui, sans-serif;
-  letter-spacing: -0.02em;
-  text-wrap: balance;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  .recipe-paper,
+  .button:hover,
+  .button:active,
+  .menu-toggle:active {
+    transform: none;
+  }
 }
-
-/* Mono is the kitchen-ticket texture: labels, timings, quantities, tags. */
-.font-mono-ticket {
-  font-family: var(--font-mono), ui-monospace, monospace;
+@media (max-width: 1023px) {
+  .hero-grid {
+    gap: 2rem;
+    grid-template-columns: 1fr 0.95fr;
+  }
+  .development-grid,
+  .access-grid {
+    gap: 2.5rem;
+  }
+  .feature-card {
+    padding: 1.5rem;
+  }
+  .footer-top {
+    flex-direction: column;
+  }
 }
-
-/* Perforated edge — the signature "kitchen chit" motif. */
-.ticket-edge {
-  --perf: 7px;
-  -webkit-mask:
-    radial-gradient(var(--perf) at var(--perf) 50%, #0000 98%, #000) left / 51% 100% repeat-y,
-    radial-gradient(var(--perf) at calc(100% - var(--perf)) 50%, #0000 98%, #000) right / 51% 100% repeat-y;
-  mask:
-    radial-gradient(var(--perf) at var(--perf) 50%, #0000 98%, #000) left / 51% 100% repeat-y,
-    radial-gradient(var(--perf) at calc(100% - var(--perf)) 50%, #0000 98%, #000) right / 51% 100% repeat-y;
+@media (min-width: 768px) {
+  .noscript-nav {
+    display: none;
+  }
 }
-
-/* Torn-edge strip — the perforation idea extended past the Hero card to a
-   full section boundary, so the "receipt paper" motif isn't confined to
-   one component. A thin same-color strip sits flush against a section's
-   bottom edge; the mask bites scalloped notches out of it so the section
-   below peeks through, instead of the two sections meeting on a flat line. */
-.ticket-tear {
-  --perf: 8px;
-  -webkit-mask: radial-gradient(var(--perf) at 50% 100%, #0000 98%, #000) bottom / calc(var(--perf) * 2) 100% repeat-x;
-  mask: radial-gradient(var(--perf) at 50% 100%, #0000 98%, #000) bottom / calc(var(--perf) * 2) 100% repeat-x;
-}
-
-/* Paper grain — a faint noise texture for the dark "ticket paper" surfaces
-   (Hero, AppScreens, Footer). Real receipt paper has texture; flat color
-   fill didn't reflect that. Pure CSS/SVG, no JS, costs nothing at runtime. */
-.paper-grain {
-  position: relative;
-}
-.paper-grain::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.05;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 140px 140px;
-}
-
-/* Visible keyboard focus — brand-consistent (lime accent), works on both
-   the dark pantry-green and light chalk surfaces. Nothing defined this
-   before, which is a real gap for keyboard users. */
-a:focus-visible,
-button:focus-visible,
-[role="button"]:focus-visible,
-input:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-  border-radius: 4px;
+@media (max-width: 767px) {
+  .nav-row {
+    min-height: 68px;
+  }
+  .desktop-nav {
+    display: none;
+  }
+  .nav-tools {
+    margin-left: auto;
+  }
+  .menu-toggle {
+    display: inline-flex;
+  }
+  .mobile-menu {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid rgb(245 240 229 / 25%);
+    padding-block: 0.75rem;
+  }
+  .hero-grid,
+  .feature-grid,
+  .steps,
+  .development-grid,
+  .access-grid {
+    grid-template-columns: 1fr;
+  }
+  .hero h1 {
+    max-width: 15ch;
+  }
+  .hero-description {
+    font-size: 1rem;
+  }
+  .hero .button {
+    max-width: 100%;
+  }
+  .ingredient-story {
+    max-width: 470px;
+    width: 100%;
+    margin-inline: auto;
+    padding-top: 1.5rem;
+  }
+  .workbench {
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+  }
+  .recipe-paper {
+    padding: 1.25rem;
+  }
+  .feature-lead {
+    grid-row: auto;
+    gap: 2.5rem;
+  }
+  .feature-card:not(.feature-lead) {
+    align-items: flex-start;
+  }
+  .steps {
+    gap: 2rem;
+  }
+  .steps li {
+    position: relative;
+    padding-left: 4rem;
+  }
+  .step-number {
+    position: absolute;
+    left: 0;
+    font-size: 1.75rem;
+  }
+  .development-grid,
+  .access-grid {
+    gap: 2.5rem;
+  }
+  .section-heading {
+    margin-bottom: 2rem;
+  }
+  .membership-notes {
+    padding: 1.5rem;
+  }
+  .footer-top nav {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
 }
